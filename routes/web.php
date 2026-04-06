@@ -24,3 +24,6 @@ Route::middleware(['auth', 'role:sales'])->group(function () {
 Route::middleware(['auth', 'role:kepala_gudang'])->group(function () {
     Route::get('/gudang/dashboard', function () { return "Dashboard Kepala Gudang"; });
 });
+
+Route::get('/forgot-password', [AuthController::class, 'showReset'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'resetPassword'])->name('password.update');

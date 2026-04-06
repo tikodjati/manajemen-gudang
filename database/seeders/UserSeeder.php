@@ -2,40 +2,39 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Akun Admin [cite: 177]
+        // Update Akun Admin
         User::create([
             'nama' => 'Admin Eufrat',
             'email' => 'admin@mail.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('password'), //admin123
             'role' => 'admin',
+            'recovery_phrase' => 'satu dua tiga empat lima enam tujuh delapan sembilan sepuluh sebelas dua belas', // TARUH DISINI
         ]);
 
-        // Akun Sales [cite: 177]
+        // Update Akun Sales
         User::create([
             'nama' => 'Sales Loddy',
             'email' => 'sales@mail.com',
             'password' => Hash::make('password'),
             'role' => 'sales',
+            'recovery_phrase' => 'satu dua tiga empat lima enam tujuh delapan sembilan sepuluh sebelas dua belas', // TARUH DISINI
         ]);
 
-        // Akun Kepala Gudang [cite: 177]
+        // Update Akun Kepala Gudang
         User::create([
             'nama' => 'Gudang Tiko',
             'email' => 'gudang@mail.com',
             'password' => Hash::make('password'),
             'role' => 'kepala_gudang',
+            'recovery_phrase' => 'satu dua tiga empat lima enam tujuh delapan sembilan sepuluh sebelas dua belas', // TARUH DISINI
         ]);
     }
 }
