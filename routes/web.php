@@ -49,12 +49,6 @@ Route::middleware(['auth', 'no-cache'])->group(function () {
 
     // Dashboard Kepala Gudang (PBI-003: Otorisasi Kepala Gudang)
     Route::middleware(['role:kepala_gudang'])->group(function () {
-        Route::get('/gudang/dashboard', function () {
-            return '<h1>Dashboard Kepala Gudang</h1> 
-                    <form action="' . route('logout') . '" method="POST"> 
-                        ' . csrf_field() . ' 
-                        <button type="submit" style="color:red; cursor:pointer;">Logout</button> 
-                    </form>';
-        });
+        Route::get('/gudang/dashboard', [OrderController::class, 'gudangIndex'])->name('gudang.dashboard');
     });
 });

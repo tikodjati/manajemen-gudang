@@ -90,4 +90,15 @@ class OrderController extends Controller
 
         return redirect()->back()->with('success', $pesan);
     }
+
+    public function gudangIndex()
+    {
+        // Hanya mengambil orderan yang sudah dikonfirmasi 'diterima' oleh Admin
+        $orders = Order::with('user')
+            ->where('status', 'diterima')
+            ->latest()
+            ->get();
+
+        return view('gudang.dashboard', compact('orders'));
+    }
 }
