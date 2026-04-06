@@ -21,34 +21,31 @@ Route::middleware(['guest'])->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // --- Group Auth & No-Cache (Mencegah Session Persistance & Back History) ---
-// Sesuai PBI-005: Manajemen Sesi dan Logout [cite: 57]
 Route::middleware(['auth', 'no-cache'])->group(function () {
 
-    // Dashboard Admin (PBI-003: Otorisasi Admin) [cite: 57]
+    // Dashboard Admin (PBI-003 & PBI-010: Perekapan Orderan)
     Route::middleware(['role:admin'])->group(function () {
-        Route::get('/admin/dashboard', function () {
-            return '<h1>Dashboard Admin</h1> 
-                    <form action="' . route('logout') . '" method="POST"> 
-                        ' . csrf_field() . ' 
-                        <button type="submit" style="color:red; cursor:pointer;">Logout</button> 
-                    </form>';
-        });
+        // Ubah baris dashboard menjadi seperti ini
+        Route::get('/admin/dashboard', [OrderController::class, 'index'])->name('admin.dashboard');
     });
 
-    // Dashboard Sales (PBI-003: Otorisasi Sales) [cite: 57]
+    // Dashboard Sales (PBI-003 & PBI-008: Input Orderan)
     Route::middleware(['role:sales'])->group(function () {
         Route::get('/sales/dashboard', function () {
             return '<h1>Dashboard Sales</h1> 
                     <form action="' . route('logout') . '" method="POST"> 
                         ' . csrf_field() . ' 
                         <button type="submit" style="color:red; cursor:pointer;">Logout</button> 
-                    </form>';
+                    </form>
+                    <hr>
+                    <a href="' . route('order.create') . '">+ Input Orderan Baru</a>';
         });
+
         Route::get('/sales/order/create', [OrderController::class, 'create'])->name('order.create');
         Route::post('/sales/order/store', [OrderController::class, 'store'])->name('order.store');
     });
 
-    // Dashboard Kepala Gudang (PBI-003: Otorisasi Kepala Gudang) [cite: 57]
+    // Dashboard Kepala Gudang (PBI-003: Otorisasi Kepala Gudang)
     Route::middleware(['role:kepala_gudang'])->group(function () {
         Route::get('/gudang/dashboard', function () {
             return '<h1>Dashboard Kepala Gudang</h1> 
