@@ -27,6 +27,8 @@ Route::middleware(['auth', 'no-cache'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
         // Ubah baris dashboard menjadi seperti ini
         Route::get('/admin/dashboard', [OrderController::class, 'index'])->name('admin.dashboard');
+        // Route Konfirmasi PBI-011
+        Route::post('/admin/order/{id}/status', [OrderController::class, 'updateStatus'])->name('admin.order.status');
     });
 
     // Dashboard Sales (PBI-003 & PBI-008: Input Orderan)

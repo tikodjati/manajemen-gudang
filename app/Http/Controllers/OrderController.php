@@ -74,4 +74,20 @@ class OrderController extends Controller
         $orders = Order::with('user', 'items')->latest()->get();
         return view('admin.orders_index', compact('orders'));
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:diterima,ditolak'
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->update([
+            'status' => $request->status
+        ]);
+
+        $pesan = $request->status == 'diterima' ? 'Orderan berhasil diterima!' : 'Orderan telah ditolak.';
+
+        return redirect()->back()->with('success', $pesan);
+    }
 }
