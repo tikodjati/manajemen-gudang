@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 
 // Halaman Utama
 Route::get('/', function () {
@@ -43,6 +44,8 @@ Route::middleware(['auth', 'no-cache'])->group(function () {
                         <button type="submit" style="color:red; cursor:pointer;">Logout</button> 
                     </form>';
         });
+        Route::get('/sales/order/create', [OrderController::class, 'create'])->name('order.create');
+        Route::post('/sales/order/store', [OrderController::class, 'store'])->name('order.store');
     });
 
     // Dashboard Kepala Gudang (PBI-003: Otorisasi Kepala Gudang) [cite: 57]
@@ -55,5 +58,4 @@ Route::middleware(['auth', 'no-cache'])->group(function () {
                     </form>';
         });
     });
-
 });
