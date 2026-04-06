@@ -16,7 +16,7 @@ class AuthController extends Controller
     }
 
     // Proses Update Password dengan Recovery Phrase (PBI-004)
-    public function resetPassword(Request $request) 
+    public function resetPassword(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
@@ -25,8 +25,8 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('email', $request->email)
-                    ->where('recovery_phrase', $request->recovery_phrase)
-                    ->first();
+            ->where('recovery_phrase', $request->recovery_phrase)
+            ->first();
 
         if (!$user) {
             return back()->withErrors(['recovery_phrase' => 'Email atau Kata Rahasia salah.']);
@@ -42,6 +42,13 @@ class AuthController extends Controller
     // Tampilan Form Login (PBI-002)
     public function showLogin()
     {
+        if (Auth::check()) {
+            return match (Auth::user()->role) {
+                'admin' => redirect('/admin/dashboard'),
+                'sales' => redirect('/sales/dashboard'),
+                'kepala_gudang' => redirect('/gudang/dashboard'),
+            };
+        }
         return view('auth.login');
     }
 
@@ -51,7 +58,7 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
-            'role' => ['required'], 
+            'role' => ['required'],
         ]);
 
         if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
