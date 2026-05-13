@@ -101,4 +101,25 @@ class OrderController extends Controller
 
         return view('gudang.dashboard', compact('orders'));
     }
+
+    public function updateResi(Request $request, $id)
+    {
+        $request->validate([
+            'no_resi' => 'required|string|max:50'
+        ]);
+
+        $order = Order::findOrFail($id);
+
+        // Pastikan hanya orderan 'diterima' yang bisa diberi resi
+        if ($order->status !== 'diterima') {
+            return redirect()->back()->with('error', 'Orderan belum disetujui Admin!');
+        }
+
+        $order->update([
+            'no_resi' => $request->no_resi,
+            'status' => 'diterima' // Tetap diterima, atau bisa kamu tambah status 'dikirim' jika mau
+        ]);
+
+        return redirect()->back()->with('success', 'Nomor Resi ' . $request->no_resi . ' berhasil diinput!');
+    }
 }
