@@ -15,7 +15,8 @@ class Order extends Model
         'user_id', 
         'total_harga', 
         'status', 
-        'bukti_pembayaran'
+        'bukti_pembayaran',
+        'no_resi'
     ];
 
     // Relasi: Satu Order dimiliki oleh satu Sales (User)
